@@ -23,24 +23,24 @@ public class VideoController {
     private VideoService videoService;
 
     @PostMapping
-    public ResponseEntity<Mono<Video>> saveVideo(@Valid @RequestBody VideoDTO videoDto){
+    public ResponseEntity<Mono<Video>> saveVideo(@Valid @RequestBody VideoDTO videoDto) {
         return new ResponseEntity<>(videoService.saveVideo(videoDto), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Mono<Video>> editVideo(@Valid @PathVariable String id, @Valid @RequestBody VideoDTO videoDTO){
+    public ResponseEntity<Mono<Video>> editVideo(@Valid @PathVariable String id, @Valid @RequestBody VideoDTO videoDTO) {
         return new ResponseEntity<>(videoService.editVideo(id, videoDTO), HttpStatus.OK);
     }
 
     @PutMapping(value = "/favoritos/{id}")
-    public ResponseEntity<Mono<Video>> likeVideo(@Valid @PathVariable String id, @Valid @RequestParam boolean isLiked){
+    public ResponseEntity<Mono<Video>> likeVideo(@Valid @PathVariable String id, @Valid @RequestParam boolean isLiked) {
         return new ResponseEntity<>(videoService.likeVideo(id, isLiked), HttpStatus.OK);
     }
 
 
-    @DeleteMapping( value = "/{id}")
-    public void deleteVideo(@Valid @PathVariable String id){
-         videoService.delete(id).subscribe();
+    @DeleteMapping(value = "/{id}")
+    public void deleteVideo(@Valid @PathVariable String id) {
+        videoService.delete(id).subscribe();
     }
 
     @GetMapping("/paginado")
@@ -59,13 +59,12 @@ public class VideoController {
     }
 
     @GetMapping("/recomendados")
-    public ResponseEntity<Flux<Video>> getRecomendation(){
+    public ResponseEntity<Flux<Video>> getRecomendation() {
 
         Flux<Video> response = videoService.getRecomendation();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
 
 }

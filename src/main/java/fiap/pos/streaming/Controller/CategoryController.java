@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/category")
@@ -17,13 +18,18 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<Mono<Category>> saveVideo(@Valid @RequestParam String name){
+    public ResponseEntity<Category> saveVideo(@Valid @RequestParam String name) {
         return new ResponseEntity<>(categoryService.createCategory(name), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Mono<Category>> findById(@Valid @PathVariable String id){
+    public ResponseEntity<Category> findById(@Valid @PathVariable String id) {
         return new ResponseEntity<>(categoryService.findById(id), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Category>> findAllCategory() {
+        return new ResponseEntity<>(categoryService.findAll(), HttpStatus.CREATED);
     }
 
 }

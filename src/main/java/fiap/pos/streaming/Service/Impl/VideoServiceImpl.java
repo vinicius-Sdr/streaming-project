@@ -17,10 +17,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class VideoServiceImpl implements VideoService {
@@ -40,15 +36,13 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public Mono<Video> saveVideo(VideoDTO videoDTO) {
 
-        Category category = new Category();
-        category.setName(videoDTO.getCategoria().getName());
-
+        Category category = categoryRepository.findById(videoDTO.getCategoria().getId()).get();
 
         Video video = new Video();
         video.setTitle(videoDTO.getTitle());
         video.setDescription(videoDTO.getDescription());
         video.setUrl(videoDTO.getUrl());
-        video.setCategoria(videoDTO.getCategoria());
+        video.setCategoria(category);
         video.setIsLiked(videoDTO.getIsLiked());
         video.setPublishDate(LocalDate.now());
 
@@ -104,14 +98,17 @@ public class VideoServiceImpl implements VideoService {
 
         Mono<Video> video = videoRepository.findById(id);
 
-        return video.flatMap((existingVideo) -> {
+
+        video = video.flatMap((existingVideo) -> {
             existingVideo.setTitle(videoDTO.getTitle());
             existingVideo.setDescription(videoDTO.getDescription());
             existingVideo.setUrl(videoDTO.getUrl());
             existingVideo.setIsLiked(videoDTO.getIsLiked());
             existingVideo.setCategoria(videoDTO.getCategoria());
             return videoRepository.save(existingVideo);
-        }).map((employee -> mapper.videoDTOtoEntity(videoDTO)));
+        });
+
+        return video;
     }
 
     @Override
@@ -124,7 +121,6 @@ public class VideoServiceImpl implements VideoService {
         });
 
     }
-
 
 
 }

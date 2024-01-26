@@ -7,7 +7,7 @@ import org.mapstruct.ReportingPolicy;
 import org.springframework.stereotype.Component;
 
 @Component
-@Mapper(componentModel="spring", unmappedTargetPolicy = ReportingPolicy.WARN)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface VideoMapper {
 
     Video videoDTOtoEntity(VideoDTO videoDTO);

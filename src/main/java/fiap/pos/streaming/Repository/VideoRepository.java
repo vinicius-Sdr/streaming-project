@@ -10,5 +10,4 @@ public interface VideoRepository extends ReactiveMongoRepository<Video, String> 
     Flux<Video> findVideoByIsLikedTrue();
 
 
-
 }

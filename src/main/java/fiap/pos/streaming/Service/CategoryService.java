@@ -1,12 +1,14 @@
 package fiap.pos.streaming.Service;
 
 import fiap.pos.streaming.Model.Category;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 public interface CategoryService {
 
-    Mono<Category> createCategory(String name);
+    Category createCategory(String name);
 
-    Mono<Category> findById(String id);
+    Category findById(String id);
 
+    List<Category> findAll();
 }

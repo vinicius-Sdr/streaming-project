@@ -6,7 +6,6 @@ import fiap.pos.streaming.Model.dto.VideoDTO;
 import fiap.pos.streaming.Repository.CategoryRepository;
 import fiap.pos.streaming.Repository.VideoRepository;
 import fiap.pos.streaming.Service.VideoService;
-import fiap.pos.streaming.mapper.VideoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -29,9 +28,6 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private ReactiveMongoTemplate reactiveMongoTemplate;
-
-    @Autowired
-    private VideoMapper mapper;
 
     @Override
     public Mono<Video> saveVideo(VideoDTO videoDTO) {
@@ -68,6 +64,8 @@ public class VideoServiceImpl implements VideoService {
             query.addCriteria(Criteria.where("category").in(category));
         }
 
+        Flux<Video> value = reactiveMongoTemplate.find(query, Video.class);
+
         return reactiveMongoTemplate.find(query, Video.class)
                 .collectList()
                 .map(videoList -> new PageImpl<>(videoList, pageable, videoList.size()))
@@ -77,16 +75,16 @@ public class VideoServiceImpl implements VideoService {
 
     //Falta ajustar a lógica de buscar quantos likes tem por categoria para então buscar todos os videos da categoria com mais liked
 
-    @Override
-    public Flux<Video> getRecomendation() {
+//    @Override
+//    public Flux<Video> getRecomendation() {
 //        Mono<List<String>> likedVideos = videoRepository.findVideoByIsLikedTrue()
 //                .collectList()
 //                .map(videoList -> videoList.stream().map(video -> Arrays.asList((video.getCategoria()))).flatMap(Collection::stream).collect(Collectors.toList()));
-
-        Flux<Video> video = null;
-
-        return null;
-    }
+//
+//        Flux<Video> video = null;
+//
+//        return null;
+//    }
 
     @Override
     public Mono<Void> delete(String id) {

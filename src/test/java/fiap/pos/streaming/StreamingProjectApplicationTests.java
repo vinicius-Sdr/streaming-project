@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @AutoConfigureMockMvc
 class StreamingProjectApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+
 
 }

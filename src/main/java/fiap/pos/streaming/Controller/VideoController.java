@@ -58,13 +58,13 @@ public class VideoController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/recomendados")
-    public ResponseEntity<Flux<Video>> getRecomendation() {
-
-        Flux<Video> response = videoService.getRecomendation();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @GetMapping("/recomendados")
+//    public ResponseEntity<Flux<Video>> getRecomendation() {
+//
+//        Flux<Video> response = videoService.getRecomendation();
+//
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 
 
 }

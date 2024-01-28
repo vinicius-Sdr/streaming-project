@@ -5,19 +5,19 @@ import fiap.pos.streaming.Model.Video;
 import fiap.pos.streaming.Model.dto.VideoDTO;
 import fiap.pos.streaming.Repository.VideoRepository;
 import fiap.pos.streaming.Service.VideoService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Sinks;
 import reactor.test.StepVerifier;
 
 import java.time.LocalDate;
@@ -44,13 +44,11 @@ public class VideoControllerTest {
     private VideoController videoController;
     @Mock
     private VideoService videoService;
-    @Mock
-    private VideoRepository videoRepository;
+
+    Mono<Void> voidReturn  = Mono.empty();
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         BDDMockito.when(videoService.findAll(1,
                 10,
                 "publishDate",
@@ -63,8 +61,8 @@ public class VideoControllerTest {
 
         BDDMockito.when(videoService.editVideo(video.getId(), videoDTO)).thenReturn(Mono.just(video));
 
-        //validar teste com delete
-//         BDDMockito.when(videoService.delete(video.getId())).thenReturn(Mono.just(null));
+//        validar teste com delete
+        BDDMockito.when(videoService.delete(video.getId())).thenReturn(voidReturn);
 
         BDDMockito.when(videoService.likeVideo(video.getId(), false)).thenReturn(Mono.just(video));
     }
@@ -107,4 +105,10 @@ public class VideoControllerTest {
     }
 
 
+    //ajustar teste de deletar
+    @Test
+    @DisplayName("delete video")
+    public void deleteVideo_ReturnMonoOfVideo_WhenSuccessful() {
+        Mockito.verify(videoController).deleteVideo(video.getId());
+    }
 }

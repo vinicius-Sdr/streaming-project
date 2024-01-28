@@ -20,5 +20,5 @@ public interface VideoService {
 
     Mono<Video> likeVideo(String id, boolean isLiked);
 
-    Flux<Video> getRecomendation();
+//    Flux<Video> getRecomendation();
 }
